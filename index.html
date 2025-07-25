@@ -2,27 +2,33 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <title>نتائج BEPC 2025</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نتائج مسابقة BEPC 2025</title>
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; direction: rtl; }
-    #search { width: 80%; padding: 10px; font-size: 18px; margin-top: 20px; }
-    table { width: 90%; margin: auto; border-collapse: collapse; margin-top: 20px; }
+    body { font-family: 'Arial', sans-serif; direction: rtl; text-align: center; background: #f4f4f4; margin: 0; padding: 0; }
+    header { background: #007acc; color: white; padding: 20px; }
+    #search { padding: 10px; width: 80%; max-width: 400px; margin: 20px auto; font-size: 18px; }
+    table { border-collapse: collapse; width: 95%; margin: 10px auto; background: white; }
     th, td { border: 1px solid #ddd; padding: 8px; font-size: 14px; }
-    th { background-color: #f2f2f2; }
-    #loader { margin-top: 40px; font-size: 18px; color: green; }
+    th { background-color: #007acc; color: white; }
+    #loader { margin: 50px auto; font-size: 20px; color: #007acc; }
   </style>
 </head>
 <body>
-  <h1>نتائج مسابقة BEPC 2025</h1>
-  <input type="text" id="search" placeholder="ابحث بالاسم، رقم الجلوس، الولاية، المركز، المدرسة...">
+  <header>
+    <h1>نتائج مسابقة BEPC 2025</h1>
+  </header>
+
+  <input type="text" id="search" placeholder="ابحث بالاسم، رقم الجلوس، الولاية، المدرسة...">
   <div id="loader">جاري تحميل النتائج...</div>
-  <table id="resultsTable" style="display: none">
+
+  <table id="resultsTable" style="display:none">
     <thead>
       <tr>
         <th>رقم الجلوس</th>
         <th>الاسم</th>
         <th>الولاية</th>
-        <th>المقاطعة</th>
+        <th>مكان الميلاد</th>
         <th>المركز</th>
         <th>المدرسة</th>
         <th>المعدل</th>
