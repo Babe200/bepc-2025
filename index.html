@@ -1,28 +1,21 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>نتائج مسابقة BEPC 2025</title>
+  <meta charset="UTF-8" />
+  <title>نتائج BEPC 2025</title>
   <style>
-    body { font-family: 'Arial', sans-serif; direction: rtl; text-align: center; background: #f4f4f4; margin: 0; padding: 0; }
-    header { background: #007acc; color: white; padding: 20px; }
-    #search { padding: 10px; width: 80%; max-width: 400px; margin: 20px auto; font-size: 18px; }
-    table { border-collapse: collapse; width: 95%; margin: 10px auto; background: white; }
-    th, td { border: 1px solid #ddd; padding: 8px; font-size: 14px; }
-    th { background-color: #007acc; color: white; }
-    #loader { margin: 50px auto; font-size: 20px; color: #007acc; }
+    body { font-family: Arial; direction: rtl; text-align: right; padding: 20px; }
+    input { padding: 10px; width: 100%; margin-bottom: 20px; }
+    table { width: 100%; border-collapse: collapse; display: none; }
+    th, td { border: 1px solid #ccc; padding: 8px; }
+    #loader { text-align: center; font-size: 18px; margin-bottom: 20px; }
   </style>
 </head>
 <body>
-  <header>
-    <h1>نتائج مسابقة BEPC 2025</h1>
-  </header>
-
-  <input type="text" id="search" placeholder="ابحث بالاسم، رقم الجلوس، الولاية، المدرسة...">
-  <div id="loader">جاري تحميل النتائج...</div>
-
-  <table id="resultsTable" style="display:none">
+  <h2>نتائج مسابقة BEPC 2025</h2>
+  <input type="text" id="search" placeholder="ابحث باسم أو رقم الجلوس أو المدرسة أو الولاية..." />
+  <div id="loader">جارٍ التحميل...</div>
+  <table id="resultsTable">
     <thead>
       <tr>
         <th>رقم الجلوس</th>
@@ -38,6 +31,60 @@
     <tbody id="resultsBody"></tbody>
   </table>
 
+  <!-- ملفات النتائج المتعددة -->
   <script src="script.js"></script>
+  <script src="script_500_2.js"></script>
+  <script src="script_500_3.js"></script>
+  <script src="script_500_4.js"></script>
+
+  <!-- توحيد كل النتائج -->
+  <script>
+    const allResults = [...results, ...results_2, ...results_3, ...results_4];
+
+    function normalize(text) {
+      return text.toLowerCase().trim();
+    }
+
+    function filterResults(query) {
+      const normQuery = normalize(query);
+      const filtered = allResults.filter(entry =>
+        Object.values(entry).some(val => normalize(String(val)).includes(normQuery))
+      );
+      displayResults(filtered);
+    }
+
+    function displayResults(data) {
+      const table = document.getElementById('resultsTable');
+      const body = document.getElementById('resultsBody');
+      body.innerHTML = '';
+
+      data.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${row["Num_Bepc"] || ''}</td>
+          <td>${row["NOM"] || ''}</td>
+          <td>${row["WILAYA"] || ''}</td>
+          <td>${row["LIEU_NAIS"] || ''}</td>
+          <td>${row["Centre"] || ''}</td>
+          <td>${row["Ecole"] || ''}</td>
+          <td>${row["Moyenne_Bepc"] || ''}</td>
+          <td>${row["Decision"] || ''}</td>
+        `;
+        body.appendChild(tr);
+      });
+
+      table.style.display = data.length > 0 ? '' : 'none';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('loader').style.display = 'none';
+      displayResults(allResults);
+
+      document.getElementById('search').addEventListener('input', e => {
+        filterResults(e.target.value);
+      });
+    });
+  </script>
 </body>
 </html>
+
